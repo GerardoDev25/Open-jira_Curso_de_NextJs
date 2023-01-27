@@ -12,19 +12,19 @@ const ENTRIES_INITIAL_STATE: EntriesState = {
   entries: [
     {
       _id: UUID(),
-      description: 'Consequat eiusmod aliqua magna nostrud reprehenderit.',
+      description: 'Consequat eiusmod aliqua magna nostrud prehenderit.',
       status: 'pending',
       createAt: Date.now(),
     },
     {
       _id: UUID(),
-      description: 'Consequat eiusmod aliqua magna nostrud reprehenderit.',
+      description: 'Consequat eiusmod aliqua magna nostrud prehenderit.',
       status: 'in-progress',
       createAt: Date.now() -1_000_000,
     },
     {
       _id: UUID(),
-      description: 'Consequat eiusmod aliqua magna nostrud reprehenderit.',
+      description: 'Consequat eiusmod aliqua magna nostrud prehenderit.',
       status: 'finished',
       createAt: Date.now() - 100_000,
     },

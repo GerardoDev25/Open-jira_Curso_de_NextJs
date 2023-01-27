@@ -20,7 +20,7 @@ const ENTRIES_INITIAL_STATE: EntriesState = {
       _id: UUID(),
       description: 'in-progress Consequat eiusmod aliqua magna nostrud prehenderit.',
       status: 'in-progress',
-      createAt: Date.now() -1_000_000,
+      createAt: Date.now() - 1_000_000,
     },
     {
       _id: UUID(),
@@ -38,10 +38,22 @@ interface Props {
 export const EntriesProvider: React.FC<Props> = ({ children }) => {
   const [state, dispatch] = useReducer(entriesReducer, ENTRIES_INITIAL_STATE);
 
+  const addEntry = (description: string) => {
+    const newEntry: Entry = {
+      _id: UUID(),
+      description,
+      createAt: Date.now(),
+      status: 'pending',
+    };
+
+    dispatch({ type: '[Entry] - AddEntry', payload: newEntry });
+  };
+
   return (
     <EntriesContext.Provider
       value={{
         ...state,
+        addEntry,
       }}
     >
       {children}

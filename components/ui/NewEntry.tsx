@@ -44,7 +44,7 @@ export const NewEntry = () => {
             autoFocus
             multiline
             label='Nueva entrada'
-            helperText={inputValue.length <= 0 && touched && 'ingrese texto'}
+            helperText={inputValue.length <= 0 && touched ? 'Texto es requerido' : 'Ingrese texto'}
             error={inputValue.length <= 0 && touched}
             value={inputValue}
             onChange={onTextFielChanges}

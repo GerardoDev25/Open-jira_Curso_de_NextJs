@@ -1,19 +1,24 @@
-import { DragEvent } from 'react';
+import { DragEvent, useContext } from 'react';
 import { Card, CardActionArea, CardActions, CardContent, Typography } from '@mui/material';
 
 import { Entry } from '@/interfaces';
+import { UIContext } from '@/context/ui';
 
 interface Props {
   entry: Entry;
 }
 
 export const EntryCard: React.FC<Props> = ({ entry }) => {
+  const { startDraging, endtDraging } = useContext(UIContext);
+
   const handleDragStart = (e: DragEvent) => {
     e.dataTransfer.setData('text', entry._id);
+    startDraging();
   };
 
   const handleDragEnd = () => {
     // todo cancel drag
+    endtDraging();
   };
 
   return (

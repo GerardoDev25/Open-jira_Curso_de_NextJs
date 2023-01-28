@@ -4,12 +4,17 @@ import { List, Paper } from '@mui/material';
 import { EntriesContext } from '@/context/entries';
 import { EntryStatus } from '@/interfaces';
 import { EntryCard } from './EntryCard';
+import { UIContext } from '@/context/ui';
+
+import styles from './EntryList.module.css';
 
 interface Props {
   status: EntryStatus;
 }
 
 export const EntryList: React.FC<Props> = ({ status }) => {
+  const { isDraging, endtDraging } = useContext(UIContext);
+
   const { entries } = useContext(EntriesContext);
 
   const entriesByStatus = useMemo(
@@ -28,7 +33,11 @@ export const EntryList: React.FC<Props> = ({ status }) => {
   };
 
   return (
-    <div onDrop={handleDropEntry} onDragOver={allowDropEnrty}>
+    <div
+      onDrop={handleDropEntry}
+      onDragOver={allowDropEnrty}
+      className={isDraging ? styles.draging : ''}
+    >
       <Paper
         sx={{
           height: 'calc(100vh - 180px)',
@@ -37,7 +46,7 @@ export const EntryList: React.FC<Props> = ({ status }) => {
           padding: '5px 5px',
         }}
       >
-        <List sx={{ opacity: 1 }}>
+        <List sx={{ opacity: isDraging ? 0.2 : 1, transition: 'opacity .2s' }}>
           {entriesByStatus.map((entry) => (
             <EntryCard key={entry._id} entry={entry} />
           ))}

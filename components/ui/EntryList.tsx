@@ -14,8 +14,7 @@ interface Props {
 
 export const EntryList: React.FC<Props> = ({ status }) => {
   const { isDraging, endtDraging } = useContext(UIContext);
-
-  const { entries } = useContext(EntriesContext);
+  const { entries, updateEntry } = useContext(EntriesContext);
 
   const entriesByStatus = useMemo(
     () => entries.filter((entry) => entry.status === status),
@@ -25,7 +24,11 @@ export const EntryList: React.FC<Props> = ({ status }) => {
 
   const handleDropEntry = (e: DragEvent) => {
     const id = e.dataTransfer.getData('text');
-    console.log(id);
+
+    const entry = entries.find((en) => en._id === id)!;
+    entry.status = status;
+    updateEntry(entry);
+    endtDraging()
   };
 
   const allowDropEnrty = (e: DragEvent) => {

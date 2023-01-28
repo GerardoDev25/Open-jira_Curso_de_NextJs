@@ -4,6 +4,8 @@
 # database
 mongo/
 
+
+
 # dependencies
 /node_modules
 /.pnp
@@ -30,6 +32,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
+.env
 .env*.local
 
 # vercel

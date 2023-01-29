@@ -11,3 +11,13 @@ mongodb url local
 ```
 mongodb://localhost:27017/entriesdb
 ```
+
+## configurar las variables de entorno
+renombrar el archivo __env.template__ a __.env__
+
+## llenar la base de datos de pruebas 
+
+llamar : 
+```
+  http://localhost:3000/api/seed
+```

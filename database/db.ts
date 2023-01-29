@@ -27,10 +27,11 @@ export const conecct = async () => {
 
   await mongoose.connect(process.env.MONGO_URL || '');
   mongoConnection.isConected = 1;
-  console.log('conectado a mongodb', process.env.MONGO_URL);
+  // console.log('conectado a mongodb', process.env.MONGO_URL);
 };
 
 export const disconnect = async () => {
+  if (process.env.NODE_ENV === 'development') return;
   if (mongoConnection.isConected === 0) return;
 
   await mongoose.disconnect();

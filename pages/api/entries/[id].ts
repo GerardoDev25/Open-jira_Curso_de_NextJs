@@ -1,7 +1,8 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
+import mongoose from 'mongoose';
+
 import { db } from '@/database';
 import { EntryModel, IEntry } from '@/models';
-import mongoose from 'mongoose';
-import type { NextApiRequest, NextApiResponse } from 'next';
 
 type Data = { message: string } | IEntry;
 
@@ -35,12 +36,19 @@ const updateEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   const { description = entryToUpdate.description, status = entryToUpdate.status } = req.body;
 
-  const updatedEntry = await EntryModel.findByIdAndUpdate(
-    id,
-    { description, status },
-    { runValidators: true, new: true }
-  );
+  try {
+    const updatedEntry = await EntryModel.findByIdAndUpdate(
+      id,
+      { description, status },
+      { runValidators: true, new: true }
+    );
 
-  await db.disconnect();
-  return res.status(200).json(updatedEntry!);
+    await db.disconnect();
+
+    return res.status(200).json(updatedEntry!);
+  } catch (error: any) {
+    await db.disconnect();
+    console.log({ error });
+    return res.status(400).json({ message: error.errors.status.message });
+  }
 };

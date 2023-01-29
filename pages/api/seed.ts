@@ -13,6 +13,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 
   await db.conecct()
+  await db.disconnect()
+
   
   res.status(200).json({ message: 'process made successfuly' });
 }

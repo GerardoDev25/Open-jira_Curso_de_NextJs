@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 import {
   capitalize,
   Button,
@@ -28,6 +28,8 @@ const EntryPage = () => {
   const [status, setStatus] = useState<EntryStatus>('pending');
   const [touched, setTouched] = useState(false);
 
+  const isNotValid = useMemo(() => inputValue.length <= 0 && touched, [inputValue, touched]);
+
   const onInputValuechange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
@@ -56,7 +58,10 @@ const EntryPage = () => {
                 placeholder='Nueva entrada'
                 sx={{ marginTop: 2, marginBottom: 1 }}
                 value={inputValue}
+                onBlur={() => setTouched(true)}
                 onChange={onInputValuechange}
+                helperText={isNotValid && 'Ingrese Valor'}
+                error={isNotValid}
               />
 
               <FormControl>
@@ -81,7 +86,7 @@ const EntryPage = () => {
                 startIcon={<SaveOutlinedIcon />}
                 variant='contained'
                 onClick={onSave}
-                disabled={inputValue.length === 0}
+                disabled={inputValue.length <= 0}
               >
                 Save
               </Button>

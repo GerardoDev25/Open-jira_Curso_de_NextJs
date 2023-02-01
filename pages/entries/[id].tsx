@@ -2,8 +2,8 @@ import { ChangeEvent, FC, useMemo, useState } from 'react';
 import { GetServerSideProps } from 'next';
 
 import {
-  capitalize,
   Button,
+  capitalize,
   Card,
   CardActions,
   CardContent,
@@ -12,20 +12,20 @@ import {
   FormControlLabel,
   FormLabel,
   Grid,
+  IconButton,
   Radio,
   RadioGroup,
   TextField,
-  IconButton,
 } from '@mui/material';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
 import { Layout } from '@/components/layout';
-import { EntryStatus } from '@/interfaces';
-import { isValidObjectId } from 'mongoose';
+import { Entry, EntryStatus } from '@/interfaces';
+import { getEntryById } from '@/database';
 
 interface Props {
-  age: number;
+  entry: Entry;
 }
 
 const validStatus: EntryStatus[] = ['pending', 'in-progress', 'finished'];
@@ -114,7 +114,9 @@ const EntryPage: FC<Props> = (props) => {
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { id } = params as { id: string };
 
-  if (!isValidObjectId(id)) {
+  const entry = await getEntryById(id);
+
+  if (!entry) {
     return {
       redirect: {
         destination: '/',
@@ -124,7 +126,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   }
 
   return {
-    props: { id },
+    props: { entry: { ...entry, _id: entry._id.toString() } },
   };
 };
 

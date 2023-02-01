@@ -24,6 +24,7 @@ import { Layout } from '@/components/layout';
 import { Entry, EntryStatus } from '@/interfaces';
 import { getEntryById } from '@/database';
 import { EntriesContext } from '@/context/entries';
+import { dateFuntions } from '@/utils';
 
 interface Props {
   entry: Entry;
@@ -66,7 +67,10 @@ const EntryPage: FC<Props> = ({ entry }) => {
       <Grid sx={{ marginTop: 2 }} container justifyContent={'center'}>
         <Grid item xs={12} sm={8} md={6}>
           <Card>
-            <CardHeader title={`Entrada: `} subheader={`Creada hace: ${entry.createAt}`} />
+            <CardHeader
+              title={`Entrada: `}
+              subheader={`Creada: ${dateFuntions.getFormatDistanceToNow(entry.createAt)}`}
+            />
             <CardContent>
               <TextField
                 autoFocus

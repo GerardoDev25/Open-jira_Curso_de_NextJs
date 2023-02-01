@@ -4,6 +4,7 @@ import { Card, CardActionArea, CardActions, CardContent, Typography } from '@mui
 import { Entry } from '@/interfaces';
 import { UIContext } from '@/context/ui';
 import { useRouter } from 'next/router';
+import { dateFuntions } from '@/utils';
 
 interface Props {
   entry: Entry;
@@ -17,7 +18,6 @@ export const EntryCard: React.FC<Props> = ({ entry }) => {
     e.dataTransfer.setData('text', entry._id);
     startDraging();
   };
-
   const handleDragEnd = () => {
     // todo cancel drag
     endtDraging();
@@ -40,7 +40,9 @@ export const EntryCard: React.FC<Props> = ({ entry }) => {
           <Typography sx={{ whiteSpace: 'pre-line' }}>{entry.description}</Typography>
         </CardContent>
         <CardActions sx={{ display: 'flex', justifyContent: 'end', paddingRight: 2 }}>
-          <Typography variant='body2'>Hace 30 minitos</Typography>
+          <Typography variant='body2'>
+            {dateFuntions.getFormatDistanceToNow(entry.createAt)}
+          </Typography>
         </CardActions>
       </CardActionArea>
     </Card>

@@ -30,11 +30,9 @@ interface Props {
 
 const validStatus: EntryStatus[] = ['pending', 'in-progress', 'finished'];
 
-const EntryPage: FC<Props> = (props) => {
-  console.log(props);
-
-  const [inputValue, setInputValue] = useState('');
-  const [status, setStatus] = useState<EntryStatus>('pending');
+const EntryPage: FC<Props> = ({ entry }) => {
+  const [inputValue, setInputValue] = useState(entry.description);
+  const [status, setStatus] = useState<EntryStatus>(entry.status);
   const [touched, setTouched] = useState(false);
 
   const isNotValid = useMemo(() => inputValue.length <= 0 && touched, [inputValue, touched]);
@@ -53,11 +51,11 @@ const EntryPage: FC<Props> = (props) => {
   };
 
   return (
-    <Layout title='.....'>
+    <Layout title={inputValue.substring(0, 15) + '...'}>
       <Grid sx={{ marginTop: 2 }} container justifyContent={'center'}>
         <Grid item xs={12} sm={8} md={6}>
           <Card>
-            <CardHeader title={`Entrada: ${inputValue}`} subheader={`Creada hace: ...`} />
+            <CardHeader title={`Entrada: `} subheader={`Creada hace: ${entry.createAt}`} />
             <CardContent>
               <TextField
                 autoFocus
@@ -126,7 +124,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   }
 
   return {
-    props: { entry: { ...entry, _id: entry._id.toString() } },
+    // props: { entry: { ...entry, _id: entry._id.toString() } },
+    props: { entry },
   };
 };
 
